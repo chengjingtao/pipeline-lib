@@ -13,8 +13,6 @@ def call(body){
     stage("build"){
       echo "this is building stage ${templ}"
     }
-    stage("after"){
-      after.call()
-    }
+    after.call()
   }
 }
