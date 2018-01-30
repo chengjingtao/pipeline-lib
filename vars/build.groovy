@@ -7,16 +7,26 @@ def call(body){
   
   pipeline{
     agent any
+
     stages {
       stage("checkout"){
-        echo "this is checkout stage ${templ.Repo}"
+        steps{
+          echo "this is checkout stage ${templ.Repo}"
+        }
+        
       }
       stage("build"){
-        echo "this is building stage ${templ}"
+        steps{
+          echo "this is building stage ${templ}"
+        }
       }
+
       stage("after"){
-        templ["after"]()
+        steps{
+          templ["after"]()
+        }
       }
     }
+
   }
 }
