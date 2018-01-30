@@ -5,23 +5,17 @@ def call(body){
   body.delegate = templ
   body()
 
-  stage("checkout"){
-    steps{
+  node{
+    stage("checkout"){
       echo "this is checkout stage ${templ.Repo}"
     }
-  }
-  
-  stage("build"){
-    steps{
+    
+    stage("build"){
       echo "this is building stage ${templ}"
     }
-  }
 
-  stage("after"){
-    steps{
-      script{
-        templ["after"]()
-      }
+    stage("after"){
+      templ["after"]()
     }
   }
 }
