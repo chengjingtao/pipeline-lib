@@ -6,22 +6,14 @@ def call(body){
   body()
 
   stage("checkout"){
-    steps{
-      echo "this is checkout stage ${templ.Repo}"
-    }
+    echo "this is checkout stage ${templ.Repo}"
   }
-  
+
   stage("build"){
-    steps{
-      echo "this is building stage ${templ}"
-    }
+    echo "this is building stage ${templ}"
   }
 
   stage("after"){
-    steps{
-      script{
-        templ["after"]()
-      }
-    }
+      templ["after"]()
   }
    
