@@ -5,7 +5,10 @@ def call(body){
   body.delegate = templ
   body()
   def after = templ["after"]
-  after()
+  
+  node{
+    after()
+  }
 
   node {
     stage("checkout"){
