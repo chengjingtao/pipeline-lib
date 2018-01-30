@@ -5,6 +5,7 @@ def call(body){
   body.delegate = templ
   body()
   def after = templ["after"]
+  after.call()
 
   node {
     stage("checkout"){
@@ -13,6 +14,6 @@ def call(body){
     stage("build"){
       echo "this is building stage ${templ}"
     }
-    after.call()
+    
   }
 }
