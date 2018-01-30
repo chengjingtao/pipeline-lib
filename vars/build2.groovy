@@ -1,5 +1,9 @@
-def call(templ){
+def call(templ, Closure after){
   node {
-    echo "hello ${templ]"
+    after()
+  }
+  
+  node {
+    echo "hello ${templ}"
   }
 }
