@@ -4,21 +4,14 @@ def call(body){
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = templ
   body()
-  def after = templ["after"]
 
-  node{
-    after()
+  stage("checkout"){
+    echo "this is checkout stage ${templ.Repo}"
   }
-
-  node {
-    stage("checkout"){
-      echo "this is checkout stage ${templ.Repo}"
-    }
-    stage("build"){
-      echo "this is building stage ${templ}"
-    }
-    stage("after"){
-      after()
-    }
+  stage("build"){
+    echo "this is building stage ${templ}"
+  }
+  stage("after"){
+    templ["after"]()
   }
 }
