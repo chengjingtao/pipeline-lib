@@ -1,4 +1,4 @@
-def call(templ, Closure after){
+def call(String templ, Closure after){
   node {
     after()
   }
