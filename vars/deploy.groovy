@@ -1,13 +1,14 @@
 def call(body){
+
   def templ = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = templ
   body()
 
-  build{
-    Repo = templ["Repo"]
-    after = templ["after"]
-  }
+  node {
 
-  build2(templ["n"], templ["b"])
+    stage("Deploy"){
+      echo "deploy service ${templ}"
+    }
+  }
 }

@@ -7,12 +7,12 @@ def call(body){
 
   node{
     stage("checkout"){
-      echo "this is checkout stage ${templ.Repo}"
+      echo "this is checkout stage ${templ.repo}"
     }
     
-    if (templ["ci"] != null){
+    if (templ["CI"] != null){
       stage("CI"){
-        templ["ci"]()
+        templ["CI"]()
       }
     }
 
@@ -21,7 +21,6 @@ def call(body){
         echo "build image..."
       }
     }
-
   }
 }
    
