@@ -23,7 +23,9 @@ def call(body){
 
       stage("after"){
         steps{
-          templ["after"]()
+          script{
+            templ["after"]()
+          }
         }
       }
     }
