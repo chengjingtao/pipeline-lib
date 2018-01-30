@@ -4,6 +4,7 @@ def call(body){
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = templ
   body()
+  def after = templ["after"]
 
   node {
     stage("checkout"){
@@ -13,7 +14,7 @@ def call(body){
       echo "this is building stage ${templ}"
     }
     stage("after"){
-      ${templ["after"]}.call()
+      after.call()
     }
   }
 }
