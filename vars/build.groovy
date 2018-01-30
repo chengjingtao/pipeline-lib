@@ -4,31 +4,24 @@ def call(body){
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = templ
   body()
+
+  stage("checkout"){
+    steps{
+      echo "this is checkout stage ${templ.Repo}"
+    }
+  }
   
-  pipeline{
-    agent any
+  stage("build"){
+    steps{
+      echo "this is building stage ${templ}"
+    }
+  }
 
-    stages {
-      stage("checkout"){
-        steps{
-          echo "this is checkout stage ${templ.Repo}"
-        }
-        
-      }
-      stage("build"){
-        steps{
-          echo "this is building stage ${templ}"
-        }
-      }
-
-      stage("after"){
-        steps{
-          script{
-            templ["after"]()
-          }
-        }
+  stage("after"){
+    steps{
+      script{
+        templ["after"]()
       }
     }
-
   }
-}
+   
