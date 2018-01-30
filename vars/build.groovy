@@ -13,7 +13,7 @@ def call(body){
       echo "this is building stage ${templ}"
     }
     stage("after"){
-      templ["after"]()
+      ${templ["after"]}.call()
     }
   }
 }
