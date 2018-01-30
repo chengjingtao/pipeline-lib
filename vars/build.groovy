@@ -10,13 +10,18 @@ def call(body){
       echo "this is checkout stage ${templ.Repo}"
     }
     
-    stage("build"){
-      echo "this is building stage ${templ}"
+    if (templ["ci"] != null){
+      stage("CI"){
+        templ["ci"]()
+      }
     }
 
-    stage("after"){
-      templ["after"]()
+    if (templ["buildImage"]){
+      stage("Build Image"){
+        echo "build image..."
+      }
     }
+
   }
 }
    
