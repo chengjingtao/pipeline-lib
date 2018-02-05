@@ -19,8 +19,10 @@ def call(body){
     if (templ["buildImage"]){
       stage("Build Image"){
         echo "build image..."
+
       }
     }
   }
+  
 }
    

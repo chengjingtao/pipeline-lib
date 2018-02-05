@@ -1,0 +1,79 @@
+name: build
+declarative: false
+# 如果含有仓库则需要页面弹出仓库选择
+# PipelineSCM , 仓库类型、账号、仓库、分支
+# 向jenkinsfile 中传递 相应参数
+# repository
+repository: true
+label:
+  - golang
+  - develop
+stages:
+  - Checkout
+  - CI
+    - CI
+    - Code Scan
+  - BuildImage
+  - UploadArtifacts
+created: chengjt
+description:
+  zh: ""
+  en: ""
+parameters:
+# 支持 string int boolean list option 简单联动
+  - basic:
+    - name: "imageTag" #用于Jenkinsfile中接收值
+      type: string # int boolean 
+      defaultValue: "default value"
+      display_name: # 页面显示
+        zh: ""
+        en: ""
+      description: # 提示信息
+        zh: ""
+        en: ""
+      required: true
+    - name: "CIEnabled" #用于Jenkinsfile中接收值
+      type: boolean # int boolean 
+      defaultValue: false
+      display_name: # 页面显示
+        zh: ""
+        en: ""
+      description: # 提示信息
+        zh: ""
+        en: ""
+      required: true
+    - name: "ciSteps" #用于Jenkinsfile中接收值
+      listen: "CIEnabled=true"
+      type: multi_string
+      defaultValue: "default value"
+      option:
+        - display: ""
+          value: ""
+        - display: ""
+          value: ""
+      display_name: # 页面显示
+        zh: ""
+        en: ""
+      description: # 提示信息
+        zh: ""
+        en: ""
+    - name: "parameter name" #用于Jenkinsfile中接收值
+      type: list
+      defaultValue: "default value"
+      list:
+        - item1
+        - item2
+        - item3
+      display_name: # 页面显示
+        zh: ""
+        en: ""
+      description: # 提示信息
+        zh: ""
+        en: ""
+      required: true
+  - advanced:
+
+
+
+    
+    

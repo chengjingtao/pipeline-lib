@@ -17,5 +17,5 @@ def call(body){
     service = "razzil"
     version = "v1"
   }
-  
+
 }

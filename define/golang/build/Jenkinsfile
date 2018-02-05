@@ -1,8 +1,23 @@
-  node {
-    stage("checkout"){
-      echo "this is checkout stage ${templ.Repo}"
-    }
-    stage("build"){
-      echo "this is building stage ${templ}"
+node{
+  stage("checkout"){
+    echo "this is checkout stage ${repo}"
+  }
+  
+  if (templ["CI"] != null){
+    stage("CI"){
+      templ["CI"]()
+      sh "mvn build"
+      sh "mvn package"
     }
   }
+
+  if (templ["buildImage"]){
+    stage("Build Image"){
+      sh "dcoker build -t ${IMAGE}"
+      echo "build image..."
+    }
+  }
+}
+
+
+
