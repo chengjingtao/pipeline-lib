@@ -1,3 +1,4 @@
+// step or stage
 def build(body){
   def config = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -9,7 +10,6 @@ def build(body){
       sh "echo hello golang build"
     }
   }
-
 }
 
 def test(body){
@@ -20,4 +20,27 @@ def test(body){
 
   sh "echo this is test"
   echo "in test echo..."
+}
+
+def buildImage(body){
+  pipeline{
+    agent any
+    stages{
+      stage("Clone"){
+        steps{
+          echo "this is clone"
+        }
+      }
+      stage("Build"){
+        steps{
+          echo "this is build"
+        }
+      }
+      stage("Test"){
+        steps{
+          echo "this is test"
+        }
+      }
+    }
+  }
 }
