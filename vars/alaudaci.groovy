@@ -1,4 +1,4 @@
-def build(body){
+def call(body){
   def config = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = config
@@ -17,7 +17,7 @@ def build(body){
 
 
 
-def ALAUDACI_DEST_DIR = "./__alauda_dest"
+  def ALAUDACI_DEST_DIR = "/__alauda_dest"
   pipeline{
     agent any
 
@@ -28,8 +28,8 @@ def ALAUDACI_DEST_DIR = "./__alauda_dest"
 
           script{
             def scmVars = git url:repo, branch:branch, credentialsId:credentialsId
-            def gitCommitID = scmVars.GIT_COMMIT
-            def gitBranch = scmVars.GIT_BRANCH
+            gitCommitID = scmVars.GIT_COMMIT
+            gitBranch = scmVars.GIT_BRANCH
           }
 
           stash "source"
@@ -40,13 +40,16 @@ def ALAUDACI_DEST_DIR = "./__alauda_dest"
 
       stage("ExeCMDs"){
         agent {
-          label "golang"
+          label "${slave}"
         }
 
         steps{
           unstash "source"
           sh "ls && mkdir -p ${ALAUDACI_DEST_DIR}"
-          sh """${cmd}"""
+          withEnv(["ALAUDACI_DEST_DIR=${ALAUDACI_DEST_DIR}"]){
+            sh """${cmd}"""
+          }
+
           dir("${ALAUDACI_DEST_DIR}"){
             stash "dest"
           }
@@ -55,10 +58,13 @@ def ALAUDACI_DEST_DIR = "./__alauda_dest"
 
       stage("BuildAndPushImage"){
         steps{
-          unstash "dest"
-          script{
-            docker.withRegistry(registry, registryCredentialsId){
-              docker.build("${registry}/${image}:${gitCommitID}", "${ALAUDACI_DEST_DIR}").push()
+          sh "mkdir -p ${ALAUDACI_DEST_DIR}"
+          dir("${ALAUDACI_DEST_DIR}"){
+            unstash "dest"
+            script{
+              docker.withRegistry(registry, registryCredentialsId){
+                docker.build("${image}:${gitCommitID}", "${ALAUDACI_DEST_DIR}").push()
+              }
             }
           }
         }
@@ -68,5 +74,23 @@ def ALAUDACI_DEST_DIR = "./__alauda_dest"
 
   }
 }
+
+// def test(body){
+//   def config = [:]
+//   body.resolveStrategy = Closure.DELEGATE_FIRST
+//   body.delegate = config
+//   body()
+
+//   pipeline {
+//       agent any
+//       stages {
+//         stage('Even Stage') {
+//           steps {
+//             echo "The build number is even"
+//           }
+//         }
+//       }
+//     }
+// }
 
   
