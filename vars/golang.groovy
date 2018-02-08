@@ -5,11 +5,21 @@ def build(body){
   body.delegate = config
   body()
 
-  node{
-    stage(config.StageName){
-      sh "echo hello golang build"
+  def CMD = config["CMD"]
+
+  pipeline{
+    agent any
+
+    stages{
+      stage()
     }
+
   }
+  
+  node("golang"){
+
+  }
+
 }
 
 def test(body){
@@ -18,7 +28,7 @@ def test(body){
   body.delegate = config
   body()
 
-  sh "echo this is test"
+  sh "echo this is test ${config.Name}"
   echo "in test echo..."
 }
 
